@@ -3,82 +3,82 @@
 
 export const onCreateItems = /* GraphQL */ `
   subscription OnCreateItems(
+    $org: String
+    $sku_number: Int
+    $sku_desc: String
     $customer: String
     $level: String
-    $org: String
-    $sku_desc: String
-    $sku_number: Int
   ) {
     onCreateItems(
+      org: $org
+      sku_number: $sku_number
+      sku_desc: $sku_desc
       customer: $customer
       level: $level
-      org: $org
-      sku_desc: $sku_desc
-      sku_number: $sku_number
     ) {
+      org
+      sku_number
+      sku_desc
       customer
-      high
       level
       low
-      message
-      org
-      sku_desc
-      sku_number
-      value
-    }
-  }
-`;
-export const onDeleteItems = /* GraphQL */ `
-  subscription OnDeleteItems(
-    $customer: String
-    $level: String
-    $org: String
-    $sku_desc: String
-    $sku_number: Int
-  ) {
-    onDeleteItems(
-      customer: $customer
-      level: $level
-      org: $org
-      sku_desc: $sku_desc
-      sku_number: $sku_number
-    ) {
-      customer
       high
-      level
-      low
-      message
-      org
-      sku_desc
-      sku_number
       value
+      message
     }
   }
 `;
 export const onUpdateItems = /* GraphQL */ `
   subscription OnUpdateItems(
+    $org: String
+    $sku_number: Int
+    $sku_desc: String
     $customer: String
     $level: String
-    $org: String
-    $sku_desc: String
-    $sku_number: Int
   ) {
     onUpdateItems(
+      org: $org
+      sku_number: $sku_number
+      sku_desc: $sku_desc
       customer: $customer
       level: $level
-      org: $org
-      sku_desc: $sku_desc
-      sku_number: $sku_number
     ) {
+      org
+      sku_number
+      sku_desc
       customer
-      high
       level
       low
-      message
-      org
-      sku_desc
-      sku_number
+      high
       value
+      message
+    }
+  }
+`;
+export const onDeleteItems = /* GraphQL */ `
+  subscription OnDeleteItems(
+    $org: String
+    $sku_number: Int
+    $sku_desc: String
+    $customer: String
+    $level: String
+  ) {
+    onDeleteItems(
+      org: $org
+      sku_number: $sku_number
+      sku_desc: $sku_desc
+      customer: $customer
+      level: $level
+    ) {
+      org
+      sku_number
+      sku_desc
+      customer
+      level
+      low
+      high
+      value
+      message
     }
   }
 `;

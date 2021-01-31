@@ -4,15 +4,15 @@
 export const getItems = /* GraphQL */ `
   query GetItems($org: String!) {
     getItems(org: $org) {
+      org
+      sku_number
+      sku_desc
       customer
-      high
       level
       low
-      message
-      org
-      sku_desc
-      sku_number
+      high
       value
+      message
     }
   }
 `;
@@ -24,20 +24,17 @@ export const listItems = /* GraphQL */ `
   ) {
     listItems(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
+        org
+        sku_number
+        sku_desc
         customer
-        high
         level
         low
-        message
-        org
-        sku_desc
-        sku_number
+        high
         value
+        message
       }
       nextToken
     }
   }
 `;
-
-
-// export const addItem = 

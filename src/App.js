@@ -29,7 +29,6 @@ function App() {
     }
   }
 
-  // message: "<customer> has too much stocks of <SKU description> due to slowdown in rate of sale during lockdowns. <MSL> months of stock left. Discuss running a promotion with the buyer."
 
   const addNewItem = async(data) => {
     try{
@@ -38,6 +37,16 @@ function App() {
     }catch(error) {
       console.log('error on adding new item', error)
     }
+  }
+
+  const deleteItem = async(item) => {
+    try{
+      const result = await API.graphql(graphqlOperation(deleteItems,{input:item}))
+      console.log(result);
+    }catch(error) {
+      console.log('error on deleting item', error)
+    }
+
   }
 
   return (
@@ -58,58 +67,56 @@ function App() {
       <input
       onChange={e => setFormData({ ...formData, 'sku_number': e.target.value})}
       placeholder="sku number"
-      value={formData.name}
+      value={formData.sku_number}
       />
       
       <input
       onChange={e => setFormData({ ...formData, 'sku_desc': e.target.value})}
       placeholder="sku description"
-      value={formData.name}
+      value={formData.sku_desc}
       />
 
       <input
       onChange={e => setFormData({ ...formData, 'value': e.target.value})}
       placeholder="value"
-      value={formData.name}
+      value={formData.value}
       />
 
 
       <input
       onChange={e => setFormData({ ...formData, 'high': e.target.value})}
       placeholder="high"
-      value={formData.name}
+      value={formData.high}
       />
 
       <input
       onChange={e => setFormData({ ...formData, 'low': e.target.value})}
       placeholder="low"
-      value={formData.name}
+      value={formData.low}
       />
 
       <input
       onChange={e => setFormData({ ...formData, 'level': e.target.value})}
       placeholder="level"
-      value={formData.name}
+      value={formData.level}
       />
 
 
       <input
       onChange={e => setFormData({ ...formData, 'message': e.target.value})}
       placeholder="message"
-      value={formData.name}
+      value={formData.message}
       />
 
 
-      <button onClick={()=>addNewItem(formData)}>
-        Add Item
-      </button>
-
-      <button onClick={()=>deleteItems}>Delete Item</button>
-
+      <button onClick={()=>addNewItem(formData)}>Add Item</button>
       <button onClick={()=>updateItems}>Update Item</button>
         
       { orgs && orgs.map(org=>{
-          return <p key={org.org}>{`${org.sku_number} || ${org.sku_desc} || ${org.org}`}</p>
+          return  <React.Fragment key={org.org}>
+                    <p>{`${org.sku_number} || ${org.sku_desc} || ${org.org}`}</p>
+                    <button onClick={()=>deleteItem(org)}>Delete</button>
+                  </React.Fragment>
         })}
         
         <AmplifySignOut />

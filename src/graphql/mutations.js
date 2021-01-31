@@ -4,45 +4,45 @@
 export const createItems = /* GraphQL */ `
   mutation CreateItems($input: CreateItemsInput!) {
     createItems(input: $input) {
+      org
+      sku_number
+      sku_desc
       customer
-      high
       level
       low
-      message
-      org
-      sku_desc
-      sku_number
-      value
-    }
-  }
-`;
-export const deleteItems = /* GraphQL */ `
-  mutation DeleteItems($input: DeleteItemsInput!) {
-    deleteItems(input: $input) {
-      customer
       high
-      level
-      low
-      message
-      org
-      sku_desc
-      sku_number
       value
+      message
     }
   }
 `;
 export const updateItems = /* GraphQL */ `
   mutation UpdateItems($input: UpdateItemsInput!) {
     updateItems(input: $input) {
+      org
+      sku_number
+      sku_desc
       customer
-      high
       level
       low
-      message
-      org
-      sku_desc
-      sku_number
+      high
       value
+      message
+    }
+  }
+`;
+export const deleteItems = /* GraphQL */ `
+  mutation DeleteItems($input: DeleteItemsInput!) {
+    deleteItems(input: $input) {
+      org
+      sku_number
+      sku_desc
+      customer
+      level
+      low
+      high
+      value
+      message
     }
   }
 `;
