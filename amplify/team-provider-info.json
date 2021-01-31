@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-salesdynamo-dev-142705-authRole",
+      "UnauthRoleArn": "arn:aws:iam::025877609306:role/amplify-salesdynamo-dev-142705-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::025877609306:role/amplify-salesdynamo-dev-142705-authRole",
+      "Region": "eu-west-2",
+      "DeploymentBucketName": "amplify-salesdynamo-dev-142705-deployment",
+      "UnauthRoleName": "amplify-salesdynamo-dev-142705-unauthRole",
+      "StackName": "amplify-salesdynamo-dev-142705",
+      "StackId": "arn:aws:cloudformation:eu-west-2:025877609306:stack/amplify-salesdynamo-dev-142705/f98e82f0-620f-11eb-b38a-0a9765b9244c",
+      "AmplifyAppId": "d3n3stkm7zxdye"
+    },
+    "categories": {
+      "auth": {
+        "salesdynamo53424f30": {}
+      }
+    }
+  }
+}

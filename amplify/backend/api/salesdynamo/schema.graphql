@@ -1,0 +1,134 @@
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
+type Items @searchable @model @auth{
+  customer: String
+  high: Float
+  level: String
+  low: Float
+  message: String
+  org: String!
+  sku_desc: String
+  sku_number: Int
+  value: Float
+}
+
+type ItemsConnection {
+  items: [Items]
+  nextToken: String
+}
+
+type Mutation {
+  createItems(input: CreateItemsInput!): Items
+  deleteItems(input: DeleteItemsInput!): Items
+  updateItems(input: UpdateItemsInput!): Items
+}
+
+type Query {
+  getItems(org: String!): Items
+  listItems(filter: TableItemsFilterInput, limit: Int, nextToken: String): ItemsConnection
+}
+
+type Subscription {
+  onCreateItems(customer: String, level: String, org: String, sku_desc: String, sku_number: Int): Items @aws_subscribe(mutations : ["createItems"])
+  onDeleteItems(customer: String, level: String, org: String, sku_desc: String, sku_number: Int): Items @aws_subscribe(mutations : ["deleteItems"])
+  onUpdateItems(customer: String, level: String, org: String, sku_desc: String, sku_number: Int): Items @aws_subscribe(mutations : ["updateItems"])
+}
+
+input CreateItemsInput {
+  customer: String
+  high: Float
+  level: String
+  low: Float
+  message: String
+  org: String!
+  sku_desc: String
+  sku_number: Int
+  value: Float
+}
+
+input DeleteItemsInput {
+  org: String!
+}
+
+input TableBooleanFilterInput {
+  eq: Boolean
+  ne: Boolean
+}
+
+input TableFloatFilterInput {
+  between: [Float]
+  contains: Float
+  eq: Float
+  ge: Float
+  gt: Float
+  le: Float
+  lt: Float
+  ne: Float
+  notContains: Float
+}
+
+input TableIDFilterInput {
+  beginsWith: ID
+  between: [ID]
+  contains: ID
+  eq: ID
+  ge: ID
+  gt: ID
+  le: ID
+  lt: ID
+  ne: ID
+  notContains: ID
+}
+
+input TableIntFilterInput {
+  between: [Int]
+  contains: Int
+  eq: Int
+  ge: Int
+  gt: Int
+  le: Int
+  lt: Int
+  ne: Int
+  notContains: Int
+}
+
+input TableItemsFilterInput {
+  customer: TableStringFilterInput
+  high: TableFloatFilterInput
+  level: TableStringFilterInput
+  low: TableFloatFilterInput
+  message: TableStringFilterInput
+  org: TableStringFilterInput
+  sku_desc: TableStringFilterInput
+  sku_number: TableIntFilterInput
+  value: TableFloatFilterInput
+}
+
+input TableStringFilterInput {
+  beginsWith: String
+  between: [String]
+  contains: String
+  eq: String
+  ge: String
+  gt: String
+  le: String
+  lt: String
+  ne: String
+  notContains: String
+}
+
+input UpdateItemsInput {
+  customer: String
+  high: Float
+  level: String
+  low: Float
+  message: String
+  org: String!
+  sku_desc: String
+  sku_number: Int
+  value: Float
+}
