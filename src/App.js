@@ -4,6 +4,7 @@ import { AmplifySignOut, withAuthenticator } from '@aws-amplify/ui-react';
 import React, { useState, useEffect } from 'react';
 import { listItems } from './graphql/queries';
 import {createItems, deleteItems, updateItems} from './graphql/mutations';
+import * as subscriptions from './graphql/subscriptions';
 
 Amplify.configure(awsconfig);
 
@@ -33,6 +34,8 @@ function App() {
   const addNewItem = async(data) => {
     try{
       const result = await API.graphql(graphqlOperation(createItems,{input:data}));
+      const newItems = [...orgs, result.data.createItems];
+      setOrgs(newItems);
       console.log(result);  
     }catch(error) {
       console.log('error on adding new item', error)
@@ -42,7 +45,9 @@ function App() {
   const deleteItem = async(item) => {
     try{
       const result = await API.graphql(graphqlOperation(deleteItems,{input:item}))
-      console.log(result);
+      const newItems = orgs.filter(o=>o.org != result.data.deleteItems.org);
+      setOrgs(newItems);
+      console.log(result.data.deleteItems);
     }catch(error) {
       console.log('error on deleting item', error)
     }
