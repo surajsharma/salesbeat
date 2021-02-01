@@ -4,6 +4,8 @@ import { AmplifySignOut, withAuthenticator } from '@aws-amplify/ui-react';
 import React, { useState, useEffect } from 'react';
 import { listItems } from './graphql/queries';
 import {createItems, deleteItems, updateItems} from './graphql/mutations';
+import { Flex, Spacer, Box, Input, Button } from "@chakra-ui/react";
+import "./App.css";
 
 Amplify.configure(awsconfig);
 
@@ -17,7 +19,7 @@ function App() {
     if(!orgs){
       fetchOrgs();
     } else {
-      console.log(orgs);
+      console.log(orgs, AmplifySignOut);
     }
   },[orgs]);
 
@@ -36,6 +38,7 @@ function App() {
       const result = await API.graphql(graphqlOperation(createItems,{input:data}));
       const newItems = [...orgs, result.data.createItems];
       setOrgs(newItems);
+      setFormData([])
       console.log(result);  
     }catch(error) {
       console.log('error on adding new item', error)
@@ -64,102 +67,109 @@ function App() {
 
     if(setEditableId){
       setEditableId(null);
+      setItemData([]);
       fetchOrgs();
-
     }
   }
 
   return (
     <div className="App">
-    <AmplifySignOut/>
-      <header className="App-header">     
-        <input
+    <Flex><AmplifySignOut/><Button>Add</Button></Flex>
+      <Flex p={4} direction={'column'} className="App-header">     
+        <Input
           onChange={e => setFormData({ ...formData, 'org': e.target.value})}
           placeholder="org"
           value={formData.description}
         />
-
-        <input
+        <Spacer/>
+        <Input
         onChange={e => setFormData({ ...formData, 'customer': e.target.value})}
         placeholder="customer"
         value={formData.name}
         />
-
-        <input
+        <Spacer/>
+        <Input
         onChange={e => setFormData({ ...formData, 'sku_number': e.target.value})}
         placeholder="sku number"
         value={formData.sku_number}
         />
-        
-        <input
+        <Spacer/>
+        <Input
         onChange={e => setFormData({ ...formData, 'sku_desc': e.target.value})}
         placeholder="sku description"
         value={formData.sku_desc}
         />
-
-        <input
+        <Spacer/>
+        <Input
         onChange={e => setFormData({ ...formData, 'value': e.target.value})}
         placeholder="value"
         value={formData.value}
         />
-
-        <input
+        <Spacer/>
+        <Input
         onChange={e => setFormData({ ...formData, 'high': e.target.value})}
         placeholder="high"
         value={formData.high}
         />
-
-        <input
+        <Spacer/>
+        <Input
         onChange={e => setFormData({ ...formData, 'low': e.target.value})}
         placeholder="low"
         value={formData.low}
         />
-
-        <input
+        <Spacer/>
+        <Input
         onChange={e => setFormData({ ...formData, 'level': e.target.value})}
         placeholder="level"
         value={formData.level}
         />
-
-        <input
+        <Spacer/>
+        <Input
         onChange={e => setFormData({ ...formData, 'message': e.target.value})}
         placeholder="message"
         value={formData.message}
         />
-        
-      <button onClick={()=>addNewItem(formData)}>Add Item</button>
-      <hr/>
-      </header>
-      { orgs && orgs.map((org,index) => {
-        return <React.Fragment key={org.org}>
-        <br/>
-          {
-            Object.entries(org).map(([k,v]) => {
-              return editableId === index && k !=='org'? 
-              <input
-                onChange={e => {
-                  let key = k;
-                  let val = e.target.value
-                  let obj  = {};
-                  obj[key] = val;
-                  setItemData({ ...itemData, ...obj})
-                }}
-                placeholder={k}
-                value={itemData[k]?itemData[k]:v} 
-                key={k}
-                />
-              : <p key={k}>{`${k}:${v}`}</p>
-            })
-          }
-          <button onClick={()=>deleteItem(org)}>Delete</button>
-          <button onClick={()=>{
-            console.log({...org, ...itemData});
-            editableId===index ? updateItem({...org, ...itemData}):setEditableId(index)
-            }}>
-              {editableId===index ? 'Update Item':'Edit Item'}
-          </button>
-        </React.Fragment>
-      })}      
+        <Spacer/>
+          <Button onClick={()=>addNewItem(formData)}>Add Item</Button>
+          <hr/>
+        </Flex>
+        <Flex direction={'row'} p={4} justify={'flex-start'} row-gap={"10%"} wrap>
+          { 
+            orgs && orgs.map((org,index) => 
+            <>
+              <Box key={org.org} p={4} maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">
+              {
+                Object.entries(org).map(([k,v]) => {
+                  return editableId === index && k !=='org'? 
+                    <Input
+                      onChange={e => {
+                        let key = k;
+                        let val = e.target.value
+                        let obj  = {};
+                        obj[key] = val;
+                        setItemData({ ...itemData, ...obj})
+                      }}
+                      placeholder={k}
+                      value={itemData[k]?itemData[k]:v} 
+                      key={k}
+                      />
+                  : <p key={k}>{`${k}:${v}`}</p>
+                })
+              }
+            <br/>  <hr/> <br/>
+              <Button colorScheme="red" onClick={()=>deleteItem(org)}>Delete</Button>
+              &nbsp;
+              <Button onClick={()=>{
+                console.log({...org, ...itemData});
+                editableId===index ? updateItem({...org, ...itemData}):setEditableId(index)
+                }}>
+                  {editableId===index ? 'Update Item':'Edit Item'}
+              </Button>
+              </Box>
+              <Spacer/>
+            </>
+          )}      
+        </Flex>
     </div>
   );
 }
