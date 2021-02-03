@@ -1,6 +1,6 @@
 // https://master.d3n3stkm7zxdye.amplifyapp.com/
 
-import Amplify, { API, graphqlOperation } from "aws-amplify";
+import Amplify, { API, graphqlOperation, Auth } from "aws-amplify";
 import awsconfig from "./aws-exports";
 import { AmplifySignOut, withAuthenticator } from "@aws-amplify/ui-react";
 import { useState, useEffect } from "react";
@@ -163,7 +163,7 @@ function App() {
 
   return (
     <div className="App">
-      <AmplifySignOut />
+      <Button onClick={() => Auth.signOut()}>Sign Out</Button>
       <Grid templateColumns="repeat(1, 1fr)" gap={6}>
         {orgs &&
           orgs.map((org, index) => (
